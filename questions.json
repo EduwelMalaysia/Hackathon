@@ -1,0 +1,206 @@
+[
+    {
+        "id": 1,
+        "title": "Hello World",
+        "description": "Write a program that prints 'Hello, World!' to the console.",
+        "starterCode": "print(\"Hello, World!\")",
+        "testCases": [
+            {
+                "stdin": "",
+                "stdout": "Hello, World!"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Sum of Two Numbers",
+        "description": "Write a function that takes two numbers as input and returns their sum.",
+        "starterCode": "def add_numbers(a, b):\n    return a + b\n\nline = input().strip().split()\na = int(line[0])\nb = int(line[1])\nprint(add_numbers(a, b))",
+        "testCases": [
+            {
+                "stdin": "3 5",
+                "stdout": "8"
+            },
+            {
+                "stdin": "10 20",
+                "stdout": "30"
+            },
+            {
+                "stdin": "-1 1",
+                "stdout": "0"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Even or Odd",
+        "description": "Write a program that determines if a number is even or odd.",
+        "starterCode": "num = int(input())\nif num % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")",
+        "testCases": [
+            {
+                "stdin": "4",
+                "stdout": "Even"
+            },
+            {
+                "stdin": "7",
+                "stdout": "Odd"
+            },
+            {
+                "stdin": "0",
+                "stdout": "Even"
+            },
+            {
+                "stdin": "-3",
+                "stdout": "Odd"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Factorial",
+        "description": "Write a function to calculate the factorial of a number.",
+        "starterCode": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n\nn = int(input())\nprint(factorial(n))",
+        "testCases": [
+            {
+                "stdin": "5",
+                "stdout": "120"
+            },
+            {
+                "stdin": "0",
+                "stdout": "1"
+            },
+            {
+                "stdin": "3",
+                "stdout": "6"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Reverse String",
+        "description": "Write a program that reverses a given string.",
+        "starterCode": "text = input()\nprint(text[::-1])",
+        "testCases": [
+            {
+                "stdin": "hello",
+                "stdout": "olleh"
+            },
+            {
+                "stdin": "python",
+                "stdout": "nohtyp"
+            },
+            {
+                "stdin": "racecar",
+                "stdout": "racecar"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Find Maximum",
+        "description": "Write a function that finds the maximum value in a list of numbers.",
+        "starterCode": "numbers = list(map(int, input().split()))\nprint(max(numbers))",
+        "testCases": [
+            {
+                "stdin": "1 5 3 9 2",
+                "stdout": "9"
+            },
+            {
+                "stdin": "-1 -5 -3",
+                "stdout": "-1"
+            },
+            {
+                "stdin": "42",
+                "stdout": "42"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Palindrome Check",
+        "description": "Write a program that checks if a string is a palindrome.",
+        "starterCode": "text = input().lower()\nif text == text[::-1]:\n    print(\"Palindrome\")\nelse:\n    print(\"Not Palindrome\")",
+        "testCases": [
+            {
+                "stdin": "racecar",
+                "stdout": "Palindrome"
+            },
+            {
+                "stdin": "hello",
+                "stdout": "Not Palindrome"
+            },
+            {
+                "stdin": "amanaplanacanalpanama",
+                "stdout": "Palindrome"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "Fibonacci Sequence",
+        "description": "Write a function that returns the nth Fibonacci number.",
+        "starterCode": "def fibonacci(n):\n    if n <= 1:\n        return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n\nn = int(input())\nprint(fibonacci(n))",
+        "testCases": [
+            {
+                "stdin": "0",
+                "stdout": "0"
+            },
+            {
+                "stdin": "1",
+                "stdout": "1"
+            },
+            {
+                "stdin": "5",
+                "stdout": "5"
+            },
+            {
+                "stdin": "10",
+                "stdout": "55"
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Prime Check",
+        "description": "Write a program that checks if a number is prime.",
+        "starterCode": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\nn = int(input())\nprint(\"Prime\" if is_prime(n) else \"Not Prime\")",
+        "testCases": [
+            {
+                "stdin": "2",
+                "stdout": "Prime"
+            },
+            {
+                "stdin": "17",
+                "stdout": "Prime"
+            },
+            {
+                "stdin": "25",
+                "stdout": "Not Prime"
+            },
+            {
+                "stdin": "1",
+                "stdout": "Not Prime"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "title": "String Length",
+        "description": "Write a program that counts the length of a string without using len().",
+        "starterCode": "text = input()\ncount = 0\nfor char in text:\n    count += 1\nprint(count)",
+        "testCases": [
+            {
+                "stdin": "hello",
+                "stdout": "5"
+            },
+            {
+                "stdin": "\n",
+                "stdout": "0"
+            },
+            {
+                "stdin": "programming",
+                "stdout": "11"
+            }
+        ]
+    }
+]

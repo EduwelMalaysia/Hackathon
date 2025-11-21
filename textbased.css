@@ -1,0 +1,190 @@
+.challenge-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.challenge-sidebar {
+    width: 250px;
+    background: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.challenge-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+}
+
+.question-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.question-item.active {
+    background: #0d6efd;
+    color: white;
+}
+
+.question-item.completed {
+    background: #28a745;
+    color: white;
+}
+
+.question-item:not(.active):not(.completed):hover {
+    background: #e9ecef;
+}
+
+.timer-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #dc3545;
+}
+
+.start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 1000;
+}
+
+.start-screen h2 {
+    margin-bottom: 30px;
+    color: #0d6efd;
+}
+
+.btn-start {
+    padding: 12px 32px;
+    font-size: 1.2rem;
+}
+
+.question-content {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.editor-container {
+    flex: 1;
+    min-height: 300px;
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.controls-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.buttons-row {
+    display: flex;
+    gap: 10px;
+}
+
+.results-container {
+    display: flex;
+    gap: 20px;
+}
+
+.output-matching,
+.code-capture {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.code-capture .input-group {
+    height: 100%;
+}
+
+.code-capture textarea {
+    height: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: none;
+}
+
+.output-header {
+    font-weight: bold;
+    color: #495057;
+}
+
+.output-textarea {
+    min-height: 100px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.match-percentage {
+    font-weight: bold;
+    text-align: right;
+    margin-top: 5px;
+}
+
+.match-100 {
+    color: #28a745;
+}
+
+.match-partial {
+    color: #ffc107;
+}
+
+.match-none {
+    color: #dc3545;
+}
+
+.completion-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 1000;
+    display: none;
+}
+
+.completion-screen h2 {
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.final-time {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0d6efd;
+    margin: 20px 0;
+}
