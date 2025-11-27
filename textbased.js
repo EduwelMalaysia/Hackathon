@@ -16,6 +16,7 @@ let currentQuestion = 0;
 let startTime = null;
 let timerInterval = null;
 let completedQuestions = new Set();
+let questionScores = {}; // Store scores for each question
 let currentOutput = "";
 let hasRunCode = false;
 let currentMatchPercentage = 0;
@@ -24,6 +25,8 @@ let currentCode = "";
 let currentTestCase = null;
 let passCount = 0;
 let currentLanguage = "python";
+let currentUser = "";
+const COMPETITION_DURATION = 2 * 60 * 60; // 2 hours in seconds
 
 const languageFiles = {
     "python": "main.py",
@@ -42,6 +45,7 @@ const languageFiles = {
 // DOM Elements
 const startScreen = document.getElementById('startScreen');
 const languageSelect = document.getElementById('languageSelect');
+const usernameInput = document.getElementById('username');
 const challengeContent = document.getElementById('challengeContent');
 const completionScreen = document.getElementById('completionScreen');
 const questionList = document.getElementById('questionList');
@@ -53,7 +57,40 @@ const btnStart = document.getElementById('btnStart');
 const btnRun = document.getElementById('btnRun');
 const btnSubmit = document.getElementById('btnSubmit');
 const btnRestart = document.getElementById('btnRestart');
+const btnEnd = document.getElementById('btnEnd');
 const iframe = document.getElementById('oc-editor');
+const customModal = document.getElementById('customModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalMessage = document.getElementById('modalMessage');
+const btnModalCancel = document.getElementById('btnModalCancel');
+const btnModalConfirm = document.getElementById('btnModalConfirm');
+
+// Custom Modal Function
+// Custom Modal Function
+function showModal(title, message, onConfirm, isConfirmation = true) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+
+    if (isConfirmation) {
+        btnModalCancel.style.display = 'inline-block';
+        btnModalConfirm.textContent = 'Confirm';
+    } else {
+        btnModalCancel.style.display = 'none';
+        btnModalConfirm.textContent = 'OK';
+    }
+
+    customModal.style.display = 'flex';
+
+    // Use onclick to override previous event listeners
+    btnModalConfirm.onclick = () => {
+        customModal.style.display = 'none';
+        if (onConfirm) onConfirm();
+    };
+
+    btnModalCancel.onclick = () => {
+        customModal.style.display = 'none';
+    };
+}
 
 // check output
 // window.onmessage = function (event) {
@@ -107,9 +144,11 @@ function initQuestionList() {
                 btn.dataset.index = item.originalIndex;
 
                 btn.addEventListener('click', () => {
-                    if (item.originalIndex <= currentQuestion || completedQuestions.has(item.originalIndex)) {
-                        showQuestion(item.originalIndex);
+                    // Prevent clicking if question is completed (locked)
+                    if (completedQuestions.has(item.originalIndex)) {
+                        return;
                     }
+                    showQuestion(item.originalIndex);
                 });
 
                 grid.appendChild(btn);
@@ -127,18 +166,21 @@ function updateQuestionList() {
     const items = document.querySelectorAll('.question-btn');
     items.forEach(item => {
         const index = parseInt(item.dataset.index);
-        item.classList.remove('active', 'completed');
+        item.classList.remove('active', 'completed', 'locked');
 
-        if (index === currentQuestion) {
+        if (completedQuestions.has(index)) {
+            item.classList.add('completed', 'locked');
+        } else if (index === currentQuestion) {
             item.classList.add('active');
-        } else if (completedQuestions.has(index)) {
-            item.classList.add('completed');
         }
     });
 }
 
 // Show question
 function showQuestion(index) {
+    // If question is completed, do not allow showing (redundant check but safe)
+    if (completedQuestions.has(index)) return;
+
     currentQuestion = index;
     const challenge = challenges[index];
 
@@ -172,6 +214,20 @@ function showQuestion(index) {
         }, '*');
     }, 500);
 
+    // Populate test case table
+    const tableBody = document.getElementById('testCaseTableBody');
+    tableBody.innerHTML = '';
+    challenge.testCases.forEach((testCase, i) => {
+        const row = document.createElement('tr');
+        row.id = `test-case-row-${i}`;
+        row.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${testCase.desc || `Test Case ${i + 1}`}</td>
+            <td class="status-pending">Pending</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
     outputArea.value = ' ';
     matchPercentage.textContent = 'Match: 0%';
     matchPercentage.className = 'match-percentage match-none';
@@ -189,10 +245,17 @@ function startTimer() {
     timerInterval = setInterval(() => {
         const now = new Date();
         const elapsed = Math.floor((now - startTime) / 1000);
-        const hours = Math.floor(elapsed / 3600);
-        const minutes = Math.floor((elapsed % 3600) / 60);
-        const seconds = elapsed % 60;
-        timerDisplay.textContent = `Time: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} `;
+        const remaining = COMPETITION_DURATION - elapsed;
+
+        if (remaining <= 0) {
+            endCompetition();
+            return;
+        }
+
+        const hours = Math.floor(remaining / 3600);
+        const minutes = Math.floor((remaining % 3600) / 60);
+        const seconds = remaining % 60;
+        timerDisplay.textContent = `Time Remaining: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} `;
     }, 1000);
 }
 
@@ -212,6 +275,42 @@ function getFinalTime() {
     const minutes = Math.floor((elapsed % 3600) / 60);
     const seconds = elapsed % 60;
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} `;
+}
+
+// End Competition
+function endCompetition() {
+    stopTimer();
+    completionScreen.style.display = 'flex';
+    document.getElementById('finalTime').textContent = `Final Time: ${getFinalTime()} `;
+
+    // Calculate total score
+    const totalScore = Object.values(questionScores).reduce((sum, score) => sum + score, 0);
+    const averageScore = completedQuestions.size > 0 ? Math.floor(totalScore / completedQuestions.size) : 0;
+
+    // Update completion message
+    document.getElementById('completionMessage').textContent = `You've completed ${completedQuestions.size} challenges with an Average Score of ${averageScore}%!`;
+
+    // Export results
+    const results = {
+        username: currentUser,
+        totalTime: getFinalTime(),
+        questionsAttempted: completedQuestions.size,
+        totalScore: totalScore,
+        detailedScores: questionScores,
+        solvedQuestions: Array.from(completedQuestions).map(idx => ({
+            id: challenges[idx].id,
+            title: challenges[idx].title,
+            score: questionScores[idx] || 0
+        }))
+    };
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(results, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", `results_${currentUser}.json`);
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
 }
 
 // Calculate match percentage using Levenshtein distance or simple char matching
@@ -256,6 +355,12 @@ function updateMatchDisplay(percentage, isCorrect) {
 
 // Event listeners
 btnStart.addEventListener('click', () => {
+    const username = usernameInput.value.trim();
+    if (!username) {
+        showModal("Missing Name", "Please enter your name to start.", null, false);
+        return;
+    }
+    currentUser = username;
     currentLanguage = languageSelect.value;
 
     // Update iframe src with selected language
@@ -268,12 +373,26 @@ btnStart.addEventListener('click', () => {
     showQuestion(0);
 });
 
+btnEnd.addEventListener('click', () => {
+    showModal("End Competition", "Are you sure you want to end the competition?", () => {
+        endCompetition();
+    });
+});
+
 // Run next test case
 function runNextTestCase(code) {
     if (currentTestIndex < testQueue.length) {
         currentTestCase = testQueue[currentTestIndex];
 
         console.log(`Running test case ${currentTestIndex + 1}/${testQueue.length} with stdin:`, currentTestCase.stdin);
+
+        // Update status to Running
+        const row = document.getElementById(`test-case-row-${currentTestIndex}`);
+        if (row) {
+            const statusCell = row.cells[2];
+            statusCell.textContent = 'Running...';
+            statusCell.className = 'status-running';
+        }
 
         const fileName = languageFiles[currentLanguage] || "main.py";
 
@@ -295,7 +414,7 @@ function runNextTestCase(code) {
             iframe.contentWindow.postMessage({
                 eventType: 'triggerRun'
             }, '*');
-        }, 200);
+        }, 50);
     }
     else {
         // All test cases completed
@@ -326,37 +445,64 @@ btnRun.addEventListener('click', () => {
 
 btnSubmit.addEventListener('click', () => {
     if (hasRunCode) {
-        if (currentQuestion < challenges.length - 1) {
+        // Allow submission regardless of pass count
+        // Allow submission regardless of pass count
+        showModal("Submit Answer", "Are you sure you want to submit? You cannot redo this question.", () => {
+            const currentChallenge = challenges[currentQuestion];
+
+            // Calculate score for this question (percentage of passed test cases)
+            const score = Math.floor((passCount / currentChallenge.testCases.length) * 100);
+            questionScores[currentQuestion] = score;
+
             completedQuestions.add(currentQuestion);
-            currentQuestion++;
-            showQuestion(currentQuestion);
-        } else {
-            // All questions completed
-            stopTimer();
-            completionScreen.style.display = 'flex';
-            document.getElementById('finalTime').textContent = `Final Time: ${getFinalTime()} `;
-        }
+            updateQuestionList(); // This will lock it
+
+            // Move to next available question
+            let nextQ = currentQuestion + 1;
+            while (nextQ < challenges.length && completedQuestions.has(nextQ)) {
+                nextQ++;
+            }
+
+            if (nextQ < challenges.length) {
+                showQuestion(nextQ);
+            } else {
+                showModal("Completed", "All questions completed!", null, false);
+            }
+        });
     }
 });
 
 btnRestart.addEventListener('click', () => {
-    completionScreen.style.display = 'none';
-    startScreen.style.display = 'flex';
-    currentQuestion = 0;
-    completedQuestions.clear();
-    currentOutput = "";
-    hasRunCode = false;
-    currentMatchPercentage = 0;
-    isCorrect = false;
-    currentTestCase = null;
-    timerDisplay.textContent = "Time: 00:00:00";
-    initQuestionList();
+    // Restart logic might need to be removed or restricted if it's a strict competition.
+    // User didn't explicitly say remove restart, but "once submit... can't click anymore" implies persistence.
+    // But "Restart Challenge" on completion screen might be for a new user?
+    // Let's keep it but it resets everything including user.
+    // Restart logic might need to be removed or restricted if it's a strict competition.
+    // User didn't explicitly say remove restart, but "once submit... can't click anymore" implies persistence.
+    // But "Restart Challenge" on completion screen might be for a new user?
+    // Let's keep it but it resets everything including user.
+    showModal("Restart Challenge", "Restarting will clear all progress. Are you sure?", () => {
+        completionScreen.style.display = 'none';
+        startScreen.style.display = 'flex';
+        currentQuestion = 0;
+        completedQuestions.clear();
+        questionScores = {};
+        currentOutput = "";
+        hasRunCode = false;
+        currentMatchPercentage = 0;
+        isCorrect = false;
+        currentTestCase = null;
+        timerDisplay.textContent = "Time: 00:00:00";
+        usernameInput.value = "";
+        currentUser = "";
+        initQuestionList();
+    });
 });
 
 // Listen for messages from iframe
 window.addEventListener('message', function (e) {
     const data = e.data;
-    console.log(data)
+    // console.log(data)
 
     // Check if it's a code change event
     if (data.action === 'codeUpdate' && data.files && data.files.length > 0) {
@@ -369,10 +515,10 @@ window.addEventListener('message', function (e) {
         currentOutput = data.result.output.trim();
         outputArea.value = currentOutput;
 
-        // Update code capture area
-        if (currentCode) {
-            document.getElementById('parent-code-capture').value = currentCode;
-        }
+        // Update code capture area - REMOVED
+        // if (currentCode) {
+        //     document.getElementById('parent-code-capture').value = currentCode;
+        // }
 
         hasRunCode = true;
 
@@ -385,27 +531,29 @@ window.addEventListener('message', function (e) {
                 passCount++;
             }
 
+            // Update table status
+            const row = document.getElementById(`test-case-row-${currentTestIndex}`);
+            if (row) {
+                const statusCell = row.cells[2];
+                if (isCaseCorrect) {
+                    statusCell.textContent = 'Success';
+                    statusCell.className = 'status-success';
+                } else {
+                    statusCell.textContent = 'Failed';
+                    statusCell.className = 'status-failed';
+                }
+            }
+
             // Move to next test case
             currentTestIndex++;
             setTimeout(() => {
                 runNextTestCase(currentCode);
-            }, 1);
+            }, 1); // Reduced delay for faster execution
 
 
         } else {
             // Fallback
             updateMatchDisplay(0, false);
-        }
-
-
-        if (isCorrect && !completedQuestions.has(currentQuestion)) {
-            const items = document.querySelectorAll('.question-btn');
-            // We need to find the button with the correct dataset index
-            items.forEach(item => {
-                if (parseInt(item.dataset.index) === currentQuestion) {
-                    item.classList.add('completed');
-                }
-            });
         }
     }
 });

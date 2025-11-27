@@ -17,32 +17,14 @@
             <div id="questionList">
                 <!-- Questions will be populated here -->
             </div>
+            <div class="mt-auto pt-3 border-top">
+                <button id="btnEnd" class="btn btn-danger w-100">End Competition</button>
+            </div>
         </div>
         <div class="challenge-main">
             <div id="timerDisplay" class="timer-display">Time: 00:00:00</div>
 
-            <!-- Start Screen Overlay -->
-            <div id="startScreen" class="start-screen">
-                <h1>Coding Challenge</h1>
-                <p>You have 45 minutes to complete 10 questions.</p>
-                <div class="language-selection">
-                    <label for="languageSelect">Choose Language:</label>
-                    <select id="languageSelect" class="form-select">
-                        <option value="python">Python</option>
-                        <option value="javascript">JavaScript</option>
-                        <option value="java">Java</option>
-                        <option value="c">C</option>
-                        <option value="cpp">C++</option>
-                        <option value="csharp">C#</option>
-                        <option value="nodejs">Node.js</option>
-                        <option value="lua">Lua</option>
-                        <option value="r">R</option>
-                        <option value="ruby">Ruby</option>
-                        <option value="php">PHP</option>
-                    </select>
-                </div>
-                <button id="btnStart" class="btn btn-primary">Start Challenge</button>
-            </div>
+
 
             <!-- Main Challenge Content -->
             <div id="challengeContent">
@@ -70,23 +52,73 @@
                             <textarea id="outputArea" class="form-control output-textarea" readonly></textarea>
                             <div id="matchPercentage" class="match-percentage">Match: 0%</div>
                         </div>
-                        <div class="code-capture">
-                            <div class="input-group">
-                                <span class="input-group-text">code</span>
-                                <textarea class="form-control" rows="10" aria-label="With textarea"
-                                    id="parent-code-capture" readonly></textarea>
+                        <div class="test-case-status">
+                            <div class="output-header">Test Case Status:</div>
+                            <div class="table-container">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Test Case</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="testCaseTableBody">
+                                        <!-- Rows will be populated by JS -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Completion Screen Overlay -->
-            <div id="completionScreen" class="completion-screen">
-                <h2>Congratulations! 🎉</h2>
-                <p>You've completed all 10 challenges!</p>
-                <div class="final-time" id="finalTime">Final Time: --</div>
-                <button id="btnRestart" class="btn btn-secondary">Restart Challenge</button>
+
+        </div>
+    </div>
+    <!-- Start Screen Overlay -->
+    <div id="startScreen" class="start-screen">
+        <h1>Coding Challenge</h1>
+        <p>You have 2 hours to complete question as much as possible.</p>
+        <div class="language-selection">
+            <div class="mb-3">
+                <label for="username" class="form-label">Your Name:</label>
+                <input type="text" id="username" class="form-control" placeholder="Enter your name" required>
+            </div>
+            <label for="languageSelect">Choose Language:</label>
+            <select id="languageSelect" class="form-select">
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="java">Java</option>
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="csharp">C#</option>
+                <option value="nodejs">Node.js</option>
+                <option value="lua">Lua</option>
+                <option value="r">R</option>
+                <option value="ruby">Ruby</option>
+                <option value="php">PHP</option>
+            </select>
+        </div>
+        <button id="btnStart" class="btn btn-primary">Start Challenge</button>
+    </div>
+
+    <!-- Completion Screen Overlay -->
+    <div id="completionScreen" class="completion-screen">
+        <h2>Congratulations! 🎉</h2>
+        <p id="completionMessage">You've completed all 10 challenges!</p>
+        <div class="final-time" id="finalTime">Final Time: --</div>
+        <button id="btnRestart" class="btn btn-secondary">Restart Challenge</button>
+    </div>
+
+    <!-- Custom Modal -->
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle">Title</h3>
+            <p id="modalMessage">Message</p>
+            <div class="modal-buttons">
+                <button id="btnModalCancel" class="btn btn-secondary">Cancel</button>
+                <button id="btnModalConfirm" class="btn btn-primary">Confirm</button>
             </div>
         </div>
     </div>
