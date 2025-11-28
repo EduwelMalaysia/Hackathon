@@ -500,52 +500,52 @@
         },
         "testCases": [
             {
-                "stdin": "1 2",
+                "stdin": "1\n2",
                 "desc": "Basic",
                 "stdout": "3"
             },
             {
-                "stdin": "0 0",
+                "stdin": "0\n0",
                 "desc": "Zero",
                 "stdout": "0"
             },
             {
-                "stdin": "5 -3",
+                "stdin": "5\n-3",
                 "desc": "Negative",
                 "stdout": "2"
             },
             {
-                "stdin": "10 99",
+                "stdin": "10\n99",
                 "desc": "Normal",
                 "stdout": "109"
             },
             {
-                "stdin": "100 200",
+                "stdin": "100\n200",
                 "desc": "Large",
                 "stdout": "300"
             },
             {
-                "stdin": "-5 -7",
+                "stdin": "-5\n-7",
                 "desc": "Both negative",
                 "stdout": "-12"
             },
             {
-                "stdin": "1 1000",
+                "stdin": "1\n1000",
                 "desc": "Gap",
                 "stdout": "1001"
             },
             {
-                "stdin": "999 1",
+                "stdin": "999\n1",
                 "desc": "Carry",
                 "stdout": "1000"
             },
             {
-                "stdin": "50 50",
+                "stdin": "50\n50",
                 "desc": "Equal",
                 "stdout": "100"
             },
             {
-                "stdin": "7 8",
+                "stdin": "7\n8",
                 "desc": "Small",
                 "stdout": "15"
             }
@@ -554,8 +554,8 @@
     {
         "id": 9,
         "level": "super_easy",
-        "title": "Multiply m by n",
-        "description": "Read two integers m and n, and output the result of m multiplied n times.",
+        "title": "Multiply m power of n",
+        "description": "Read two integers m and n, and output the result of m is self-multiplied n times.",
         "starterCode": {
             "python": "import sys, math\n\n# Auto-generated code below aims at helping you parse\n# the standard input according to the problem statement.\ndata = input()\n\n# Write an answer using print as below\nprint(\"write your output here\")",
             "javascript": "/**\n * Auto-generated code below aims at helping you parse\n * the standard input according to the problem statement.\n **/\n\nconst fs = require('fs');\nconst data = fs.readFileSync(0, 'utf-8').trim();\n\n// Write an answer using console.log()\n// To debug: console.error('Debug messages...');\n\nconsole.log('write your output here');",
@@ -569,54 +569,54 @@
         },
         "testCases": [
             {
-                "stdin": "2 3",
+                "stdin": "2\n3",
                 "desc": "Basic",
-                "stdout": "6"
+                "stdout": "8"
             },
             {
-                "stdin": "5 0",
+                "stdin": "5\n0",
                 "desc": "Zero",
-                "stdout": "0"
+                "stdout": "1"
             },
             {
-                "stdin": "7 1",
+                "stdin": "7\n1",
                 "desc": "Times one",
                 "stdout": "7"
             },
             {
-                "stdin": "10 10",
+                "stdin": "10\n10",
                 "desc": "Square",
-                "stdout": "100"
+                "stdout": "10000000000"
             },
             {
-                "stdin": "3 5",
+                "stdin": "3\n5",
                 "desc": "Odd",
-                "stdout": "15"
+                "stdout": "243"
             },
             {
-                "stdin": "-3 6",
+                "stdin": "-3\n6",
                 "desc": "Negative",
-                "stdout": "-18"
+                "stdout": "729"
             },
             {
-                "stdin": "-2 -4",
+                "stdin": "-2\n-4",
                 "desc": "Double negative",
-                "stdout": "8"
+                "stdout": "0.0625"
             },
             {
-                "stdin": "100 5",
+                "stdin": "100\n5",
                 "desc": "Large",
-                "stdout": "500"
+                "stdout": "10000000000"
             },
             {
-                "stdin": "8 8",
+                "stdin": "8\n8",
                 "desc": "Same",
-                "stdout": "64"
+                "stdout": "16777216"
             },
             {
-                "stdin": "9 9",
+                "stdin": "9\n9",
                 "desc": "Another",
-                "stdout": "81"
+                "stdout": "387420489"
             }
         ]
     },
@@ -638,52 +638,52 @@
         },
         "testCases": [
             {
-                "stdin": "10 3",
+                "stdin": "10\n3",
                 "desc": "Basic",
                 "stdout": "1"
             },
             {
-                "stdin": "5 5",
+                "stdin": "5\n5",
                 "desc": "Equal",
                 "stdout": "0"
             },
             {
-                "stdin": "9 2",
+                "stdin": "9\n2",
                 "desc": "Odd divide",
                 "stdout": "1"
             },
             {
-                "stdin": "7 4",
+                "stdin": "7\n4",
                 "desc": "General",
                 "stdout": "3"
             },
             {
-                "stdin": "100 7",
+                "stdin": "100\n7",
                 "desc": "Large",
                 "stdout": "2"
             },
             {
-                "stdin": "1 2",
+                "stdin": "1\n2",
                 "desc": "Smaller m",
                 "stdout": "1"
             },
             {
-                "stdin": "25 10",
+                "stdin": "25\n10",
                 "desc": "Tens",
                 "stdout": "5"
             },
             {
-                "stdin": "13 6",
+                "stdin": "13\n6",
                 "desc": "Remainder",
                 "stdout": "1"
             },
             {
-                "stdin": "50 8",
+                "stdin": "50\n8",
                 "desc": "Large remainder",
                 "stdout": "2"
             },
             {
-                "stdin": "99 9",
+                "stdin": "99\n9",
                 "desc": "Zero remainder",
                 "stdout": "0"
             }
