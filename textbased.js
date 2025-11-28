@@ -105,8 +105,9 @@ function showModal(title, message, onConfirm, isConfirmation = true) {
 function initQuestionList() {
     questionList.innerHTML = '';
 
-    const levels = ['easy', 'normal', 'hard'];
+    const levels = ['super_easy', 'easy', 'normal', 'hard'];
     const levelTitles = {
+        'super_easy': 'Super Easy',
         'easy': 'Easy',
         'normal': 'Normal',
         'hard': 'Hard'
@@ -114,6 +115,7 @@ function initQuestionList() {
 
     // Group challenges by level
     const groupedChallenges = {
+        'super_easy': [],
         'easy': [],
         'normal': [],
         'hard': []
@@ -231,8 +233,10 @@ function showQuestion(index) {
     outputArea.value = ' ';
     matchPercentage.textContent = 'Match: 0%';
     matchPercentage.className = 'match-percentage match-none';
+    matchPercentage.className = 'match-percentage match-none';
     hasRunCode = false;
     btnSubmit.disabled = false;
+    btnRun.disabled = false;
     currentMatchPercentage = 0;
     isCorrect = false;
     currentTestCase = null;
@@ -469,6 +473,8 @@ btnSubmit.addEventListener('click', () => {
                 showModal("Completed", "All questions completed!", null, false);
             }
         });
+    } else {
+        showModal("Run Code Required", "Please run your code at least once before submitting.", null, false);
     }
 });
 

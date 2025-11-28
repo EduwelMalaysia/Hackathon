@@ -22,36 +22,43 @@
             </div>
         </div>
         <div class="challenge-main">
-            <div id="timerDisplay" class="timer-display">Time: 00:00:00</div>
-
-
-
-            <!-- Main Challenge Content -->
+            <!-- Main Challenge Content Wrapper -->
             <div id="challengeContent">
-                <!-- Section 1: Question Content -->
-                <div id="questionContent" class="question-content">
-                    <!-- Question content will be displayed here -->
-                </div>
-
-                <!-- Section 2: Editor -->
-                <div class="editor-container">
-                    <iframe id="oc-editor" frameBorder="0" width="100%" height="100%"
-                        src="https://onecompiler.com/embed/python?listenToEvents=true&codeChangeEvent=true&hideResult=true&hideStdin=true&hideLanguageSelection=true&hideNew=true&hideRun=true&hideResult=true"></iframe>
-                </div>
-
-                <!-- Section 3: Controls with Submit Button and Output Matching -->
-                <div class="controls-section">
-                    <div class="buttons-row">
-                        <button id="btnRun" class="btn btn-success">Run Code</button>
-                        <button id="btnSubmit" class="btn btn-primary" disabled>Submit Answer</button>
+                <!-- Section A: Top 20% (User adjusted) -->
+                <div class="section-a">
+                    <!-- Question Content (Left 70%) -->
+                    <div id="questionContent" class="question-content">
+                        <h4>Select a question to start</h4>
+                        <p>Click on a question number from the sidebar.</p>
                     </div>
 
-                    <div class="results-container">
+                    <!-- Timer (Right 30%) -->
+                    <div class="timer-container">
+                        <div id="timerDisplay" class="timer-display">Time: 00:00:00</div>
+                    </div>
+                </div>
+
+                <!-- Section B: Bottom 80% (User adjusted) -->
+                <div class="section-b">
+                    <!-- Editor (Left 60%) -->
+                    <div class="editor-container">
+                        <iframe id="oc-editor" frameBorder="0" width="100%" height="100%"
+                            src="https://onecompiler.com/embed/python?listenToEvents=true&codeChangeEvent=true&hideResult=true&hideStdin=true&hideLanguageSelection=true&hideNew=true&hideRun=true&hideResult=true"></iframe>
+                    </div>
+
+                    <!-- Controls (Right 40%) -->
+                    <div class="controls-container">
+                        <div class="buttons-row">
+                            <button id="btnRun" class="btn btn-success" disabled>Run Code</button>
+                            <button id="btnSubmit" class="btn btn-warning" disabled>Submit Answer</button>
+                        </div>
+
                         <div class="output-matching">
                             <div class="output-header">Output Result Matching:</div>
                             <textarea id="outputArea" class="form-control output-textarea" readonly></textarea>
                             <div id="matchPercentage" class="match-percentage">Match: 0%</div>
                         </div>
+
                         <div class="test-case-status">
                             <div class="output-header">Test Case Status:</div>
                             <div class="table-container">
