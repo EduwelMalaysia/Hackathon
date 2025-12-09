@@ -27,7 +27,7 @@ a {
     text-decoration: none;
     color: white;
     max-height: 100%;
-    max-width: 50%;
+    max-width: 100%;
     object-fit: contain;
 }
 
@@ -35,23 +35,10 @@ a {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
-    padding: 5px;
-    animation: zoomInOut 3s infinite ease-in-out;
+    padding: 0px;
 }
 
-@keyframes zoomInOut {
-    0% {
-        transform: scale(0.9);
-    }
 
-    50% {
-        transform: scale(1);
-    }
-
-    100% {
-        transform: scale(0.9);
-    }
-}
 
 .challenge-sidebar {
     width: 250px;
