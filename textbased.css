@@ -1,7 +1,56 @@
 .challenge-container {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     overflow: hidden;
+}
+
+.challenge-content-wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    width: 100%;
+}
+
+.advertisement {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to left, #289040, #56e73d);
+    border-top: 1px solid #dee2e6;
+    height: 10vh;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    max-height: 100%;
+    max-width: 50%;
+    object-fit: contain;
+}
+
+.advertisement img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    padding: 5px;
+    animation: zoomInOut 3s infinite ease-in-out;
+}
+
+@keyframes zoomInOut {
+    0% {
+        transform: scale(0.9);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0.9);
+    }
 }
 
 .challenge-sidebar {
@@ -12,6 +61,40 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    transition: width 0.3s ease, padding 0.3s ease;
+}
+
+.challenge-sidebar.sidebar-hidden {
+    width: 0;
+    padding: 0;
+    border-right: none;
+    overflow: hidden;
+}
+
+.toggle-sidebar-btn {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 100;
+    background: #0d6efd;
+    border: none;
+    border-radius: 0 50px 50px 0;
+    width: 30px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    padding: 0;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.toggle-sidebar-btn:hover {
+    opacity: 1;
 }
 
 .challenge-main {

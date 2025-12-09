@@ -383,6 +383,21 @@ btnEnd.addEventListener('click', () => {
     });
 });
 
+// Sidebar Toggle
+const btnToggleSidebar = document.getElementById('btnToggleSidebar');
+const sidebar = document.querySelector('.challenge-sidebar');
+
+if (btnToggleSidebar && sidebar) {
+    btnToggleSidebar.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-hidden');
+        if (sidebar.classList.contains('sidebar-hidden')) {
+            btnToggleSidebar.textContent = '❯'; // Point right when hidden (to expand)
+        } else {
+            btnToggleSidebar.textContent = '❮'; // Point left when visible (to collapse)
+        }
+    });
+}
+
 // Run next test case
 function runNextTestCase(code) {
     if (currentTestIndex < testQueue.length) {
